@@ -1,0 +1,19 @@
+﻿@using DisqusTutorial.Infrastructure
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>Disqus Demo App</h2>
+
+@if (string.IsNullOrEmpty(ApplicationConfiguration.DisqusShortName))
+{
+    <div style="width: 100%; border: 1px solid black; background-color: #F7819F; color: red; font-weight: bolder; padding: 10px">
+        Disqus short name does not appear to be populated in &lt;appSettings /&gt;. Please enter a valid string.
+    </div>
+    <br/>
+}
+
+<ul>
+    <li>@Html.ActionLink("Disqus Default Behavior", "DisqusDefault", "Home")</li>
+    <li>@Html.ActionLink("Disqus Ajaxified", "DisqusAjax", "Home")</li>
+</ul>

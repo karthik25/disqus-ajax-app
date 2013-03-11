@@ -1,0 +1,82 @@
+﻿@using System.Globalization
+@using DisqusTutorial.Infrastructure
+
+@{
+    ViewBag.Title = "Disqus Ajaxified";
+}
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = '@ApplicationConfiguration.DisqusShortName'; // required: replace example with your forum shortname
+    var disqus_identifier = '';
+    var disqus_url = '';
+    var disqus_developer = 1;
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        initializeDisqus();
+
+        $('#btnNext').click(function () {
+            var disqusId = 'another-page';
+            reset(disqusId);
+        });
+
+        $('#btnPrevious').click(function () {
+            var disqusId = 'yet-another-page';
+            reset(disqusId);
+        });
+
+        $('#btnInit').click(function () {
+            var disqusId = 'hello-world';
+            reset(disqusId);
+        });
+    });
+
+    function initializeDisqus() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+
+        dsq.onload = function () {
+            var disqusId = 'hello-world';
+            reset(disqusId);
+        };
+
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }
+
+    function reset(disqusId) {
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                this.page.identifier = disqusId;
+                this.page.url = $('#rootUrl').val() + disqusId;
+            }
+        });
+    }
+</script>
+
+<h2>Disqus Ajaxified</h2>
+
+<div style="float: right">
+    Page loaded initially at: <b>@DateTime.Now.ToString(CultureInfo.InvariantCulture)</b>
+</div>
+
+<div style="clear: both"></div>
+
+<div id="controls">
+    <div style="float: left">
+        <a id="btnPrevious" href="javascript:void(0)">&lt;&lt; Previous</a>
+    </div>
+    <div style="text-align: center">
+        <a id="btnInit" href="javascript:void(0)">First</a>
+    </div>
+    <div style="float: right">
+        <a id="btnNext" href="javascript:void(0)">Next &gt;&gt;</a>
+    </div>
+</div>
+<br/><br/>
+<input type="hidden" id="rootUrl" value="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))"/>
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
